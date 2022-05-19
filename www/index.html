@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <body>
 
-<h2>QR Code Generator</h2>
+    <h2>QR Code Generator</h2>
 
-<input id="inputbox" style="width: 250px;" ></input>
-<br /><br />
-<button type="button" onclick="GetQRCode()">Create QR Code</button>
+    <input id="inputbox" style="width: 250px;"></input>
+    <br /><br />
+    <button type="button" onclick="GetQRCode()">Create QR Code</button>
 
-<div id="demo"></div>
+    <div id="demo" style="width: 30%;"></div>
 
-<script>
-function GetQRCode() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var ourJSON = JSON.parse(this.responseText);
-      document.getElementById("demo").innerHTML = "<img src=\"data:image/png;base64, " + ourJSON.image + "\">";
-    }
-  };
-  input = document.getElementById('inputbox').value
-  xhttp.open("GET", "/api/QRCodeGen?url=" + input, true);
-  xhttp.send();
-}
-</script>
+
+    <script>
+        function GetQRCode() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var ourJSON = JSON.parse(this.responseText);
+                    document.getElementById("demo").innerHTML = ourJSON.image;
+                    var svgData = document.querySelector("#demo").innerHTML;
+                    var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+                    var svgUrl = URL.createObjectURL(svgBlob);
+                    var downloadLink = document.createElement("a");
+                    downloadLink.href = svgUrl;
+                    downloadLink.download = "newesttree.svg";
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                }
+            };
+            input = document.getElementById('inputbox').value
+            xhttp.open("GET", "/api/QRCodeGen?url=" + input, true);
+            xhttp.send();
+        }
+
+
+    </script>
 
 </body>
+
 </html>

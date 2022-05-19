@@ -52,13 +52,15 @@ namespace Company.Function
 
             var qr = QrCode.EncodeText(url, QrCode.Ecc.Medium);
             // convert it into a byte array for PNG output
-            var pngout = qr.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
+            // var pngout = qr.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
+            string svgout = qr.ToSvgString(1);
 
+            // log.LogInformation(svgout);
             // create a new return object
             var ourResult = new ReturnObject { };
 
             // store our byte array as a string 
-            ourResult.Image = Convert.ToBase64String(pngout);
+            ourResult.Image = svgout;
 
             // send it as JSON
             return new JsonResult(ourResult);
