@@ -22,10 +22,11 @@
     <script>
         function GetQRCode(num) {
             var xhttp = new XMLHttpRequest();
+            var ourJSON;
             if (num === 0) {
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        var ourJSON = JSON.parse(this.responseText);
+                        ourJSON = JSON.parse(this.responseText);
                         document.getElementById("demo").innerHTML = ourJSON.image;
                         var svgData = document.querySelector("#demo").innerHTML;
                         var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
@@ -44,8 +45,8 @@
             } else if (num === 1) {
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        var ourJSON = JSON.parse(this.responseText);
-                        document.getElementById("demo").innerHTML = "<img src=\"data:image/png;base64, " + ourJSON.imagepng + "\">";
+                        ourJSON2 = JSON.parse(this.responseText);
+                        document.getElementById("demo").innerHTML = "<img src=\"data:image/png;base64, " + ourJSON2.imagepng + "\">";
                     }
                 };
                 input = document.getElementById('inputbox').value
