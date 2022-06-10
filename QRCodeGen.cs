@@ -52,7 +52,7 @@ namespace Company.Function
 
             var qr = QrCode.EncodeText(url, QrCode.Ecc.Medium);
             // convert it into a byte array for PNG output
-            // var pngout = qr.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
+             var pngout = qr.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
             string svgout = qr.ToSvgString(1);
 
             // log.LogInformation(svgout);
@@ -61,6 +61,7 @@ namespace Company.Function
 
             // store our byte array as a string 
             ourResult.Image = svgout;
+            ourResult.Imagepng = Convert.ToBase64String(pngout);
 
             // send it as JSON
             return new JsonResult(ourResult);
@@ -70,5 +71,6 @@ namespace Company.Function
     {
         // the only property here is a string for the PNG
         public string Image { get; set; }
+        public string Imagepng { get; set; }
     }
 }
