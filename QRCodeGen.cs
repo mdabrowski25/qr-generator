@@ -51,8 +51,9 @@ namespace Company.Function
             }
 
             var qr = QrCode.EncodeText(url, QrCode.Ecc.Medium);
+            var qr2 = QrCode.EncodeText(url, QrCode.Ecc.Medium);
             // convert it into a byte array for PNG output
-             var pngout = qr.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
+            var pngout = qr2.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
             string svgout = qr.ToSvgString(1);
 
             // log.LogInformation(svgout);
