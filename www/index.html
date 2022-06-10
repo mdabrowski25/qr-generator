@@ -50,7 +50,7 @@
                     }
                 };
                 input = document.getElementById('inputbox').value
-                xhttp.open("GET", "/api/QRCodeGen?qrtext=" + input, true);
+                xhttp.open("GET", "/api/QRCodeGen?url=" + input, true);
                 xhttp.send();
             }
 
