@@ -1,4 +1,4 @@
 # qr-generator
-Na potrzeby prywatne oraz swojej organizacji. Generator QR Code.
+For our organisation purposes. QRCode Generator. 
 
-Możliwe wygenerowanie SVG oraz PNG. Zwraca prostą stronę po Azure Functions.
+Possible SVG and PNG generation. HTML page is returned to the client all via Azure Functions.
