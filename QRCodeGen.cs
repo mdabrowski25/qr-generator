@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
 
+// ReSharper disable once CheckNamespace
 namespace Company.Function
 {
     public static class QRCodeGen
@@ -19,7 +20,7 @@ namespace Company.Function
         [FunctionName("Form")]
         public static HttpResponseMessage Form([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
         {
-            string indexPage = File.ReadAllText(context.FunctionAppDirectory + "/www/index.html");
+            var indexPage = File.ReadAllText(context.FunctionAppDirectory + "/www/index.html");
 
             var result = new HttpResponseMessage(HttpStatusCode.OK);
 
@@ -36,12 +37,12 @@ namespace Company.Function
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function processed a request");
 
             string url = req.Query["url"];
 
-            log.LogInformation("Generating QR Code for url" + url);
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            log.LogInformation("Generating QR Code for {url}", url);
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             url = url ?? data?.url;
 
@@ -53,16 +54,16 @@ namespace Company.Function
             var qr = QrCode.EncodeText(url, QrCode.Ecc.Medium);
             var qr2 = QrCode.EncodeText(url, QrCode.Ecc.Medium);
             // convert it into a byte array for PNG output
-            var pngout = qr2.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
-            string svgout = qr.ToSvgString(1);
+            var pngOut = qr2.ToPng(10, 1, SkiaSharp.SKColors.Black, SkiaSharp.SKColors.White);
+            var svgOut = qr.ToSvgString(1);
 
             // log.LogInformation(svgout);
             // create a new return object
             var ourResult = new ReturnObject { };
 
             // store our byte array as a string 
-            ourResult.Image = svgout;
-            ourResult.Imagepng = Convert.ToBase64String(pngout);
+            ourResult.Image = svgOut;
+            ourResult.Imagepng = Convert.ToBase64String(pngOut);
 
             // send it as JSON
             return new JsonResult(ourResult);
