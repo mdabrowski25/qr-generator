@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl-PL">
 
 <body>
 
     <h2 style="margin-left: 2rem;">QR Code Generator</h2>
 
-    <input id="inputbox" style="width: 250px; margin-left: 2rem;"></input>
+    <label for="inputbox"></label><input id="inputbox" style="width: 250px; margin-left: 2rem;"/>
     <br /><br />
     <button type="button" onclick="GetQRCode(0)" style="margin: 1rem; margin-left: 2rem;">Create QR Code (svg)</button>
     <button type="button" onclick="GetQRCode(1)" style="margin: 1rem; margin-left: 2rem;">Create QR Code (png)</button>
@@ -23,6 +23,7 @@
         function GetQRCode(num) {
             var xhttp = new XMLHttpRequest();
             var ourJSON;
+            let input;
             if (num === 0) {
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -40,8 +41,8 @@
                     }
                 };
                 input = document.getElementById('inputbox').value
-                xhttp.open("GET", "/api/QRCodeGen?url=" + input, true);
-                xhttp.send();
+                xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
+                xhttp.send(JSON.stringify({"url": input}));
             } else if (num === 1) {
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -50,8 +51,8 @@
                     }
                 };
                 input = document.getElementById('inputbox').value
-                xhttp.open("GET", "/api/QRCodeGen?url=" + input, true);
-                xhttp.send();
+                xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
+                xhttp.send(JSON.stringify({"url": input}));
             }
 
         }
