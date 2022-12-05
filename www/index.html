@@ -3,60 +3,60 @@
 
 <body>
 
-    <h2 style="margin-left: 2rem;">QR Code Generator</h2>
+<h2 style="margin-left: 2rem;">QR Code Generator</h2>
 
-    <label for="inputbox"></label><input id="inputbox" style="width: 250px; margin-left: 2rem;"/>
-    <br /><br />
-    <button type="button" onclick="GetQRCode(0)" style="margin: 1rem; margin-left: 2rem;">Create QR Code (svg)</button>
-    <button type="button" onclick="GetQRCode(1)" style="margin: 1rem; margin-left: 2rem;">Create QR Code (png)</button>
+<label for="inputbox"></label><input id="inputbox" style="width: 250px; margin-left: 2rem;"/>
+<br/><br/>
+<button type="button" onclick="GetQRCode(0)" style="margin: 1rem; margin-left: 2rem;">Create QR Code (svg)</button>
+<button type="button" onclick="GetQRCode(1)" style="margin: 1rem; margin-left: 2rem;">Create QR Code (png)</button>
 
-    <div id="demo" style="width: 40%; margin-left: 2rem"></div>
+<div id="demo" style="width: 40%; margin-left: 2rem"></div>
 
-    <div style="padding: 2rem;">
-        <h1>FAQ</h1>
-        <h2>SVG czy PNG?</h2>
-        <p>SVG dla strony internetowej lub miejsca gdzie nasz QR Code musi zmienic swoja wielkosc</p>
-        <p>PNG dla google docs czy prezentacji w ktorej nie zmniejszamy/zwiekszamy naszego QR Code</p>
-    </div>
+<div style="padding: 2rem;">
+    <h1>FAQ</h1>
+    <h2>SVG czy PNG?</h2>
+    <p>SVG dla strony internetowej lub miejsca gdzie nasz QR Code musi zmienic swoja wielkosc</p>
+    <p>PNG dla google docs czy prezentacji w ktorej nie zmniejszamy/zwiekszamy naszego QR Code</p>
+</div>
 
-    <script>
-        function GetQRCode(num) {
-            var xhttp = new XMLHttpRequest();
-            var ourJSON;
-            let input;
-            if (num === 0) {
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        ourJSON = JSON.parse(this.responseText);
-                        document.getElementById("demo").innerHTML = ourJSON.image;
-                        var svgData = document.querySelector("#demo").innerHTML;
-                        var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-                        var svgUrl = URL.createObjectURL(svgBlob);
-                        var downloadLink = document.createElement("a");
-                        downloadLink.href = svgUrl;
-                        downloadLink.download = "newesttree.svg";
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-                    }
-                };
-                input = document.getElementById('inputbox').value
-                xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
-                xhttp.send(JSON.stringify(`{"url": ${input.toString()}}`));
-            } else if (num === 1) {
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        ourJSON2 = JSON.parse(this.responseText);
-                        document.getElementById("demo").innerHTML = "<img src=\"data:image/png;base64, " + ourJSON2.imagepng + "\">";
-                    }
-                };
-                input = document.getElementById('inputbox').value
-                xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
-                xhttp.send(JSON.stringify(`{"url": ${input.toString()}}`));
-            }
-
+<script>
+    function GetQRCode(num) {
+        var xhttp = new XMLHttpRequest();
+        var ourJSON;
+        let input;
+        if (num === 0) {
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    ourJSON = JSON.parse(this.responseText);
+                    document.getElementById("demo").innerHTML = ourJSON.image;
+                    var svgData = document.querySelector("#demo").innerHTML;
+                    var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+                    var svgUrl = URL.createObjectURL(svgBlob);
+                    var downloadLink = document.createElement("a");
+                    downloadLink.href = svgUrl;
+                    downloadLink.download = "newesttree.svg";
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                }
+            };
+            input = document.getElementById('inputbox').value
+            xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
+            xhttp.send(JSON.stringify({ "url": input }));
+        } else if (num === 1) {
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    ourJSON2 = JSON.parse(this.responseText);
+                    document.getElementById("demo").innerHTML = "<img src=\"data:image/png;base64, " + ourJSON2.imagepng + "\">";
+                }
+            };
+            input = document.getElementById('inputbox').value
+            xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
+            xhttp.send(JSON.stringify({ "url": input }));
         }
-    </script>
+
+    }
+</script>
 
 </body>
 
