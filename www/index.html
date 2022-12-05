@@ -42,7 +42,7 @@
             };
             input = document.getElementById('inputbox').value
             xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
-            xhttp.send(JSON.stringify({ "url": input }));
+            xhttp.send();
         } else if (num === 1) {
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -52,7 +52,7 @@
             };
             input = document.getElementById('inputbox').value
             xhttp.open('GET', '/api/QRCodeGen?url=' + input, true);
-            xhttp.send(JSON.stringify({ "url": input }));
+            xhttp.send();
         }
 
     }
